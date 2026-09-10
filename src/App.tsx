@@ -18,7 +18,7 @@ export default function App() {
   // One-time initialization check to clear previous template/mock data
   const isInitializedForAsmaa = (() => {
     try {
-      return localStorage.getItem('bloom_version_asmaa_v2') === 'true';
+      return localStorage.getItem('bloom_version_asmaa_v3') === 'true';
     } catch {
       return false;
     }
@@ -99,10 +99,11 @@ export default function App() {
   useEffect(() => {
     try {
       if (!isInitializedForAsmaa) {
-        localStorage.setItem('bloom_version_asmaa_v2', 'true');
+        localStorage.setItem('bloom_version_asmaa_v3', 'true');
         localStorage.setItem('bloom_xp', '0');
         localStorage.setItem('bloom_intentions', JSON.stringify([INITIAL_INTENTION]));
         localStorage.setItem('bloom_scratchpad', JSON.stringify([]));
+        localStorage.setItem('bloom_month_plan_asmaa', JSON.stringify(INITIAL_MONTH_PLAN));
       }
     } catch {
       // ignore
@@ -174,7 +175,7 @@ export default function App() {
       localStorage.removeItem('bloom_scratchpad');
       localStorage.setItem('bloom_xp', '0');
       localStorage.setItem('bloom_month_plan_asmaa', JSON.stringify(INITIAL_MONTH_PLAN));
-      localStorage.setItem('bloom_version_asmaa_v2', 'true');
+      localStorage.setItem('bloom_version_asmaa_v3', 'true');
     } catch {
       // ignore
     }

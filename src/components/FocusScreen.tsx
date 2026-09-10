@@ -146,11 +146,16 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({
     soundscape.setVolume(val / 100);
   };
 
-  // Subtask toggle
+  // Subtask toggle & deletion
   const handleToggleSubtask = (subId: string) => {
     const updatedSubTasks = intention.subTasks.map((t) =>
       t.id === subId ? { ...t, completed: !t.completed } : t
     );
+    onUpdateIntention({ ...intention, subTasks: updatedSubTasks });
+  };
+
+  const handleDeleteSubtask = (subId: string) => {
+    const updatedSubTasks = intention.subTasks.filter((t) => t.id !== subId);
     onUpdateIntention({ ...intention, subTasks: updatedSubTasks });
   };
 
@@ -703,72 +708,108 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({
               </div>
 
               <div className="space-y-2 max-h-36 overflow-y-auto pl-1">
-                {intention.subTasks.map((task) => {
-                  if (task.completed) {
-                    return (
-                      <div
-                        key={task.id}
-                        className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-[#fef1f0] transition-colors cursor-pointer"
-                        onClick={() => handleToggleSubtask(task.id)}
-                      >
-                        <div className="w-5 h-5 rounded-md bg-[#633c44] text-white flex items-center justify-center flex-shrink-0">
-                          <Check className="w-3.5 h-3.5" />
-                        </div>
-                        <span className="text-xs text-[#827375] line-through truncate flex-1">
-                          {task.title}
-                        </span>
-                      </div>
-                    );
-                  }
-
-                  if (task.isCurrent) {
-                    return (
-                      <div
-                        key={task.id}
-                        className="flex items-center gap-2.5 p-1.5 rounded-lg bg-[#fef1f0]/90 border border-[#d4c2c4]/30"
-                      >
-                        <button
+                {intention.subTasks.length === 0 ? (
+                  <div className="text-center py-4 px-2 text-xs text-[#827375] bg-[#fef1f0]/40 rounded-xl border border-dashed border-[#d4c2c4]/60">
+                    <span>لا توجد خطوات بعد. أضيفي خطوات جلستكِ بالأسفل 🌸</span>
+                  </div>
+                ) : (
+                  intention.subTasks.map((task) => {
+                    if (task.completed) {
+                      return (
+                        <div
+                          key={task.id}
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[#fef1f0] transition-colors cursor-pointer group/item"
                           onClick={() => handleToggleSubtask(task.id)}
-                          className="w-5 h-5 rounded-md border-2 border-[#633c44] bg-white flex items-center justify-center flex-shrink-0"
-                          title="تحديد كمكتملة"
                         >
-                          <div className="w-2 h-2 rounded-full bg-[#633c44] animate-pulse" />
-                        </button>
-                        <div className="flex-1 flex items-center justify-between min-w-0">
-                          <span className="text-xs text-[#633c44] font-semibold truncate">
+                          <div className="w-5 h-5 rounded-md bg-[#633c44] text-white flex items-center justify-center flex-shrink-0">
+                            <Check className="w-3.5 h-3.5" />
+                          </div>
+                          <span className="text-xs text-[#827375] line-through truncate flex-1">
                             {task.title}
                           </span>
-                          <span className="text-[10px] tracking-wide font-semibold text-[#693943] bg-[#ffd9dc]/60 px-1.5 py-0.5 rounded mr-1 flex-shrink-0">
-                            الحالية
-                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteSubtask(task.id);
+                            }}
+                            className="opacity-0 group-hover/item:opacity-100 p-1 text-[#827375] hover:text-[#ba1a1a] transition-opacity"
+                            title="حذف هذه الخطوة"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
                         </div>
+                      );
+                    }
+
+                    if (task.isCurrent) {
+                      return (
+                        <div
+                          key={task.id}
+                          className="flex items-center gap-2 p-1.5 rounded-lg bg-[#fef1f0]/90 border border-[#d4c2c4]/30 group/item"
+                        >
+                          <button
+                            onClick={() => handleToggleSubtask(task.id)}
+                            className="w-5 h-5 rounded-md border-2 border-[#633c44] bg-white flex items-center justify-center flex-shrink-0"
+                            title="تحديد كمكتملة"
+                          >
+                            <div className="w-2 h-2 rounded-full bg-[#633c44] animate-pulse" />
+                          </button>
+                          <div className="flex-1 flex items-center justify-between min-w-0">
+                            <span className="text-xs text-[#633c44] font-semibold truncate">
+                              {task.title}
+                            </span>
+                            <span className="text-[10px] tracking-wide font-semibold text-[#693943] bg-[#ffd9dc]/60 px-1.5 py-0.5 rounded mr-1 flex-shrink-0">
+                              الحالية
+                            </span>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteSubtask(task.id);
+                            }}
+                            className="opacity-0 group-hover/item:opacity-100 p-1 text-[#827375] hover:text-[#ba1a1a] transition-opacity"
+                            title="حذف هذه الخطوة"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={task.id}
+                        className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[#fef1f0] transition-colors cursor-pointer group/item"
+                        onClick={() => handleToggleSubtask(task.id)}
+                      >
+                        <div className="w-5 h-5 rounded-md border border-[#d4c2c4] bg-white flex-shrink-0 group-hover/item:border-[#633c44]" />
+                        <span className="text-xs text-[#504445] truncate flex-1">
+                          {task.title}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSetCurrentSubtask(task.id);
+                          }}
+                          className="opacity-0 group-hover/item:opacity-100 text-[10px] text-[#7d535b] hover:underline shrink-0"
+                          title="تحديد كخطوة نشطة الآن"
+                        >
+                          تحديد كنشطة
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteSubtask(task.id);
+                          }}
+                          className="opacity-0 group-hover/item:opacity-100 p-1 text-[#827375] hover:text-[#ba1a1a] transition-opacity shrink-0"
+                          title="حذف هذه الخطوة"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
                       </div>
                     );
-                  }
-
-                  return (
-                    <div
-                      key={task.id}
-                      className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-[#fef1f0] transition-colors cursor-pointer group/item"
-                      onClick={() => handleToggleSubtask(task.id)}
-                    >
-                      <div className="w-5 h-5 rounded-md border border-[#d4c2c4] bg-white flex-shrink-0 group-hover/item:border-[#633c44]" />
-                      <span className="text-xs text-[#504445] truncate flex-1">
-                        {task.title}
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetCurrentSubtask(task.id);
-                        }}
-                        className="opacity-0 group-hover/item:opacity-100 text-[10px] text-[#7d535b] hover:underline"
-                        title="تحديد كخطوة نشطة الآن"
-                      >
-                        تحديد كنشطة
-                      </button>
-                    </div>
-                  );
-                })}
+                  })
+                )}
               </div>
             </div>
 
