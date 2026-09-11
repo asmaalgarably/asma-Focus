@@ -34,6 +34,7 @@ import {
 } from '../data/initialData.ts';
 import { soundscape } from '../utils/audioEngine.ts';
 import { ButterflyBackground } from './ButterflyBackground.tsx';
+import butterflyIcon from '../assets/images/butterfly_favicon_1789148378662.jpg';
 
 interface FocusScreenProps {
   intention: Intention;
@@ -249,9 +250,14 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({
             <span>العودة إلى الملاذ 🌿</span>
           </button>
 
-          {/* Center: Personalized Arabic Greeting for Asmaa */}
-          <div className="hidden lg:inline-flex items-center gap-2 h-11 px-5 rounded-full bg-[#fef1f0]/90 border border-[#feb2bb]/40 text-[#633c44] text-xs font-semibold tracking-wide backdrop-blur-md shadow-xs whitespace-nowrap">
-            <Sparkles className="w-3.5 h-3.5 text-[#884d55]" />
+          {/* Center: Personalized Arabic Greeting for Asmaa with butterfly badge */}
+          <div className="hidden sm:inline-flex items-center gap-2.5 h-11 px-4 rounded-full bg-[#fef1f0]/90 border border-[#feb2bb]/40 text-[#633c44] text-xs font-semibold tracking-wide backdrop-blur-md shadow-xs whitespace-nowrap">
+            <img
+              src={butterflyIcon}
+              alt="فراشة ملاذ"
+              className="w-5 h-5 object-contain rounded-full border border-[#feb2bb]/60"
+              referrerPolicy="no-referrer"
+            />
             <span>{getTimeGreeting('أسماء')}</span>
             <span className="text-[#d4c2c4]">•</span>
             <span className="text-[#827375] font-normal">حضور وتركيز هادئ</span>

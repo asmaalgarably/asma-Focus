@@ -23,6 +23,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { Intention, FleetingThought, SoundscapeTrack, MonthPlan } from '../types.ts';
+import butterflyIcon from '../assets/images/butterfly_favicon_1789148378662.jpg';
 import {
   SOUNDSCAPE_TRACKS,
   DAILY_ARABIC_LIFE_REMINDERS,
@@ -159,8 +160,14 @@ export const SanctuaryDashboard: React.FC<SanctuaryDashboardProps> = ({
         {/* HEADER SECTION */}
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 pb-6 border-b border-[#d4c2c4]/40">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-[#f8ebeb] border border-[#feb2bb]/50 flex items-center justify-center text-[#633c44] shadow-sm">
-              <Flower2 className="w-6 h-6 stroke-[1.5]" />
+            <div className="relative w-13 h-13 rounded-2xl bg-gradient-to-br from-[#fff0f3] to-[#fde2e6] border border-[#feb2bb] flex items-center justify-center p-1.5 shadow-sm overflow-hidden group">
+              <img
+                src={butterflyIcon}
+                alt="فراشة ملاذ"
+                className="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover:scale-110"
+                referrerPolicy="no-referrer"
+              />
+              <span className="absolute -bottom-1 -left-1 w-3 h-3 bg-[#c7828d] rounded-full border-2 border-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
