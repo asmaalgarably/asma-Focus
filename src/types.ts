@@ -46,6 +46,16 @@ export interface WeeklyTask {
   category: 'دراسة' | 'قراءة' | 'مراجعة' | 'واجبات' | 'شخصي' | 'عام';
   createdAt: string;
   completedAt?: string;
+  targetDay?: 'السبت' | 'الأحد' | 'الاثنين' | 'الثلاثاء' | 'الأربعاء' | 'الخميس' | 'الجمعة';
+}
+
+export type DayOfWeek = 'السبت' | 'الأحد' | 'الاثنين' | 'الثلاثاء' | 'الأربعاء' | 'الخميس' | 'الجمعة';
+
+export interface DayPlan {
+  dayName: DayOfWeek;
+  dateStr?: string;
+  tasks: WeeklyTask[];
+  dailyReflection?: string;
 }
 
 export interface WeekPlan {
@@ -54,6 +64,7 @@ export interface WeekPlan {
   subtitle: string;
   notes: string;
   tasks: WeeklyTask[];
+  dailyPlans?: Record<DayOfWeek, WeeklyTask[]>;
 }
 
 export interface MonthPlan {
@@ -61,3 +72,4 @@ export interface MonthPlan {
   monthName: string;
   weeks: WeekPlan[];
 }
+

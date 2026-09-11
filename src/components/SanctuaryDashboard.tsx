@@ -30,7 +30,7 @@ import {
   getTimeGreeting,
 } from '../data/initialData.ts';
 import { ButterflyBackground } from './ButterflyBackground.tsx';
-import { WeeklyMonthPlanner } from './WeeklyMonthPlanner.tsx';
+import { DailyTaskPlanner } from './DailyTaskPlanner.tsx';
 
 interface SanctuaryDashboardProps {
   intentions: Intention[];
@@ -271,8 +271,8 @@ export const SanctuaryDashboard: React.FC<SanctuaryDashboardProps> = ({
           </div>
         </section>
 
-        {/* 4-WEEK MONTH PLANNER: TO-DO LIST & "شو سويت فيهم" ACCOMPLISHMENTS */}
-        <WeeklyMonthPlanner
+        {/* DAILY TASK PLANNER: DAY-BY-DAY TO-DO LIST & "شو سويت باليوم" ACCOMPLISHMENTS */}
+        <DailyTaskPlanner
           monthPlan={monthPlan}
           onUpdateMonthPlan={onUpdateMonthPlan}
           onResetMonthPlan={onResetAll}

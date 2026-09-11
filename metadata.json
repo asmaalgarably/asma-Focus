@@ -1,6 +1,6 @@
 {
   "name": "ملاذ أسماء للتركيز والسكينة",
-  "description": "Mine",
+  "description": "خطة ودليل الإنتاج الشامل لـ RAG والأتمتة الذكية ومساحة الإنجاز المركّز لمهندسة الذكاء الاصطناعي",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
