@@ -10,12 +10,10 @@ import { FocusScreen } from './components/FocusScreen.tsx';
 import { SanctuaryDashboard } from './components/SanctuaryDashboard.tsx';
 import { BreathingModal } from './components/BreathingModal.tsx';
 import { CompletionModal } from './components/CompletionModal.tsx';
-import { ProductionRoadmapViewer } from './components/ProductionRoadmapViewer.tsx';
-import { BookOpen, Sparkles } from 'lucide-react';
 
 export default function App() {
-  // Screen routing: 'focus', 'sanctuary', or 'roadmap'
-  const [viewMode, setViewMode] = useState<'focus' | 'sanctuary' | 'roadmap'>('roadmap');
+  // Screen routing: 'focus' or 'sanctuary'
+  const [viewMode, setViewMode] = useState<'focus' | 'sanctuary'>('sanctuary');
 
   // One-time initialization check to clear previous template/mock data
   const isInitializedForAsmaa = (() => {
@@ -247,70 +245,51 @@ export default function App() {
 
   return (
     <div className="w-full min-h-screen relative">
-      {viewMode === 'roadmap' ? (
-        <ProductionRoadmapViewer onBack={() => setViewMode('sanctuary')} />
+      {viewMode === 'focus' ? (
+        <FocusScreen
+          intention={activeIntention}
+          onUpdateIntention={handleUpdateIntention}
+          fleetingThoughts={fleetingThoughts}
+          onAddThought={handleAddThought}
+          onToggleThought={handleToggleThought}
+          onDeleteThought={handleDeleteThought}
+          onExitToSanctuary={() => setViewMode('sanctuary')}
+          onCompleteIntention={handleCompleteIntention}
+          onOpenBreathing={() => setIsBreathingOpen(true)}
+          onResetAll={handleResetAll}
+          isTimerRunning={isTimerRunning}
+          onToggleTimer={handleToggleTimer}
+          secondsRemaining={secondsRemaining}
+          totalPlannedSeconds={totalPlannedSeconds}
+        />
       ) : (
-        <>
-          {/* Floating Roadmap Quick Access Button */}
-          <div className="fixed bottom-6 left-6 z-50">
-            <button
-              onClick={() => setViewMode('roadmap')}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#161b22]/95 hover:bg-[#21262d] text-white text-xs sm:text-sm font-semibold shadow-xl border border-rose-500/40 hover:border-rose-500 transition-all group backdrop-blur-md"
-              title="عرض خارطة طريق RAG & Automation للإنتاج"
-            >
-              <Sparkles className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform" />
-              <span>خطة RAG للإنتاج (8 أسابيع)</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            </button>
-          </div>
-
-          {viewMode === 'focus' ? (
-            <FocusScreen
-              intention={activeIntention}
-              onUpdateIntention={handleUpdateIntention}
-              fleetingThoughts={fleetingThoughts}
-              onAddThought={handleAddThought}
-              onToggleThought={handleToggleThought}
-              onDeleteThought={handleDeleteThought}
-              onExitToSanctuary={() => setViewMode('sanctuary')}
-              onCompleteIntention={handleCompleteIntention}
-              onOpenBreathing={() => setIsBreathingOpen(true)}
-              onResetAll={handleResetAll}
-              isTimerRunning={isTimerRunning}
-              onToggleTimer={handleToggleTimer}
-              secondsRemaining={secondsRemaining}
-              totalPlannedSeconds={totalPlannedSeconds}
-            />
-          ) : (
-            <SanctuaryDashboard
-              intentions={intentions}
-              activeIntentionId={activeIntentionId}
-              onSelectActiveIntention={(id) => {
-                setActiveIntentionId(id);
-                const selected = intentions.find((i) => i.id === id);
-                if (selected) {
-                  const plannedSecs = selected.plannedMinutes * 60;
-                  setTotalPlannedSeconds(plannedSecs);
-                  setSecondsRemaining(plannedSecs);
-                  setIsTimerRunning(false);
-                }
-              }}
-              onAddNewIntention={handleAddNewIntention}
-              onDeleteIntention={handleDeleteIntention}
-              fleetingThoughts={fleetingThoughts}
-              onAddThought={handleAddThought}
-              onToggleThought={handleToggleThought}
-              onDeleteThought={handleDeleteThought}
-              onEnterFocusMode={() => setViewMode('focus')}
-              onOpenBreathing={() => setIsBreathingOpen(true)}
-              onResetAll={handleResetAll}
-              totalXp={totalXp}
-              flowStreakDays={flowStreakDays}
-              monthPlan={monthPlan}
-              onUpdateMonthPlan={setMonthPlan}
-            />
-          )}
-        </>
+        <SanctuaryDashboard
+          intentions={intentions}
+          activeIntentionId={activeIntentionId}
+          onSelectActiveIntention={(id) => {
+            setActiveIntentionId(id);
+            const selected = intentions.find((i) => i.id === id);
+            if (selected) {
+              const plannedSecs = selected.plannedMinutes * 60;
+              setTotalPlannedSeconds(plannedSecs);
+              setSecondsRemaining(plannedSecs);
+              setIsTimerRunning(false);
+            }
+          }}
+          onAddNewIntention={handleAddNewIntention}
+          onDeleteIntention={handleDeleteIntention}
+          fleetingThoughts={fleetingThoughts}
+          onAddThought={handleAddThought}
+          onToggleThought={handleToggleThought}
+          onDeleteThought={handleDeleteThought}
+          onEnterFocusMode={() => setViewMode('focus')}
+          onOpenBreathing={() => setIsBreathingOpen(true)}
+          onResetAll={handleResetAll}
+          totalXp={totalXp}
+          flowStreakDays={flowStreakDays}
+          monthPlan={monthPlan}
+          onUpdateMonthPlan={setMonthPlan}
+        />
       )}
 
       {/* Mindful Breathing Modal */}
